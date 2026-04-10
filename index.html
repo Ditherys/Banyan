@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flyland Recovery Network KPI Dashboard</title>
+    <link rel="icon" type="image/png" href="./agslogo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+    <script type="module" src="./auth.js"></script>
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body data-require-auth="true">
+    <div class="auth-gate" id="authGate">
+      <div class="auth-card">
+        <div class="auth-branding" aria-hidden="true">
+          <div class="auth-branding-ags">
+            <img src="./agslogo.png" alt="" class="auth-branding-ags-logo" />
+          </div>
+          <div class="auth-branding-flyland">
+            <img src="./Flyland.webp" alt="" class="auth-branding-flyland-logo" />
+          </div>
+        </div>
+        <p class="eyebrow">Secure Access</p>
+        <h1>KPI Dashboard</h1>
+        <p class="auth-copy">
+          Sign in with your Google account to continue. Only
+          <strong>@allianceglobalsolutions.com</strong> accounts are allowed.
+        </p>
+        <button id="googleLogin" class="primary-button auth-login-button" type="button">
+          Sign in with Google
+        </button>
+        <p id="authStatus" class="auth-status">Please sign in to open the dashboard.</p>
+      </div>
+    </div>
+
+    <div class="mobile-topbar" id="mobileTopbar" hidden>
+      <button id="mobileMenuToggle" class="mobile-icon-button" type="button" aria-expanded="false" aria-controls="mobileSidebarPanel">
+        Menu
+      </button>
+      <button id="mobileTableToggle" class="mobile-icon-button" type="button" aria-expanded="true" aria-controls="tableSection">
+        Table
+      </button>
+    </div>
+    <div class="app-shell" id="appShell" hidden>
+      <aside class="sidebar" id="mobileSidebarPanel">
+        <div class="brand-block">
+          <div class="brand-mark">
+            <img src="./agslogo.png" alt="Alliance Global Solutions logo" />
+          </div>
+          <div>
+            <p class="eyebrow">Alliance Global Solutions</p>
+            <h1>Flyland Recovery Network</h1>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Dashboard sections">
+          <button class="nav-item is-active" data-target="tableSection" type="button">Table</button>
+          <button class="nav-item" data-target="summaryCards" type="button">Overview</button>
+          <button class="nav-item" data-target="trendsSection" type="button">Trends</button>
+          <button class="nav-item" data-target="agentsSection" type="button">Agents</button>
+        </nav>
+
+        <section class="sidebar-panel legend-panel">
+          <p class="panel-label">KPI Legend</p>
+          <div class="legend-kpi legend-transfer">
+            <strong>Transfer Rate</strong>
+            <div class="legend-scale-row">
+              <span class="score-pill score-1">1</span><span>&lt; 4%</span>
+              <span class="score-pill score-2">2</span><span>4% to 8%</span>
+              <span class="score-pill score-3">3</span><span>9% to 10%</span>
+              <span class="score-pill score-4">4</span><span>11% to 15%</span>
+              <span class="score-pill score-5">5</span><span>above 15%</span>
+            </div>
+          </div>
+          <div class="legend-kpi legend-admits">
+            <strong>Admits</strong>
+            <div class="legend-scale-row">
+              <span class="score-pill score-1">1</span><span>0</span>
+              <span class="score-pill score-2">2</span><span>1 to 4</span>
+              <span class="score-pill score-3">3</span><span>5 to 8</span>
+              <span class="score-pill score-4">4</span><span>9 to 13</span>
+              <span class="score-pill score-5">5</span><span>above 13</span>
+            </div>
+          </div>
+          <div class="legend-kpi legend-aht">
+            <strong>AHT</strong>
+            <div class="legend-scale-row">
+              <span class="score-pill score-1">1</span><span>above 04:09</span>
+              <span class="score-pill score-2">2</span><span>03:32 to 02:55</span>
+              <span class="score-pill score-3">3</span><span>02:56 to 02:19</span>
+              <span class="score-pill score-4">4</span><span>02:20 to 01:43</span>
+              <span class="score-pill score-5">5</span><span>below 01:44</span>
+            </div>
+          </div>
+          <div class="legend-kpi legend-attendance">
+            <strong>Attendance</strong>
+            <div class="legend-scale-row">
+              <span class="score-pill score-1">1</span><span>below 90%</span>
+              <span class="score-pill score-2">2</span><span>90% to 94%</span>
+              <span class="score-pill score-3">3</span><span>95% to 99%</span>
+              <span class="score-pill score-4">4</span><span>No attendance entry</span>
+              <span class="score-pill score-5">5</span><span>100%</span>
+            </div>
+          </div>
+          <div class="legend-kpi legend-qa">
+            <strong>Quality Assurance</strong>
+            <div class="legend-scale-row">
+              <span class="score-pill score-1">1</span><span>below 95%</span>
+              <span class="score-pill score-2">2</span><span>95% to 97%</span>
+              <span class="score-pill score-3">3</span><span>98%</span>
+              <span class="score-pill score-4">4</span><span>99%</span>
+              <span class="score-pill score-5">5</span><span>100%</span>
+            </div>
+          </div>
+          <div class="legend-kpi legend-overall">
+            <strong>Overall Weight</strong>
+            <div class="legend-weight-grid">
+              <span>Performance</span><span>50%</span>
+              <span>Attendance</span><span>25%</span>
+              <span>QA</span><span>25%</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="sidebar-panel">
+          <p class="panel-label">Dashboard Focus</p>
+          <h2>Team Leader View</h2>
+          <p id="dataStatusText">
+            Loading KPI sources and preparing date-range scorecards.
+          </p>
+        </div>
+      </aside>
+
+        <main class="main-content">
+          <header class="page-header" id="dashboardTop">
+            <div class="header-brand-shell">
+            <span class="header-brand-glow" aria-hidden="true"></span>
+            <div class="header-brand-mark">
+              <h2 class="header-logo-title">
+                <img src="./Flyland.webp" alt="Flyland Recovery Network" class="header-logo" />
+              </h2>
+            </div>
+            <div class="header-brand-copy">
+              <span class="header-brand-kicker">KPI Dashboard</span>
+              <p>Date-range scorecards with team-lead ready insights.</p>
+              <div class="dashboard-focus-switch" role="tablist" aria-label="Dashboard KPI focus">
+                <button class="dashboard-focus-button is-active" data-dashboard-focus="all" type="button" role="tab" aria-selected="true"><span class="focus-full">All</span><span class="focus-short">All</span></button>
+                <button class="dashboard-focus-button" data-dashboard-focus="transfer" type="button" role="tab" aria-selected="false"><span class="focus-full">Transfer</span><span class="focus-short">TR</span></button>
+                <button class="dashboard-focus-button" data-dashboard-focus="admits" type="button" role="tab" aria-selected="false"><span class="focus-full">Admits</span><span class="focus-short">AD</span></button>
+                <button class="dashboard-focus-button" data-dashboard-focus="aht" type="button" role="tab" aria-selected="false"><span class="focus-full">AHT</span><span class="focus-short">AHT</span></button>
+                <button class="dashboard-focus-button" data-dashboard-focus="attendance" type="button" role="tab" aria-selected="false"><span class="focus-full">Attendance</span><span class="focus-short">Attend</span></button>
+                <button class="dashboard-focus-button" data-dashboard-focus="qa" type="button" role="tab" aria-selected="false"><span class="focus-full">Quality Assurance</span><span class="focus-short">Quality</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="header-meta">
+            <div class="meta-pill auth-session-pill" id="authSessionPill" hidden>
+              <span class="meta-label">Signed In</span>
+              <span id="authUserEmail">--</span>
+              <button id="googleLogout" class="auth-logout-button" type="button">Sign Out</button>
+            </div>
+            <div class="meta-pill" id="realtimeLastUpdatedPill" hidden>
+              <span class="meta-label">Last Updated</span>
+              <span id="realtimeLastUpdatedText">--</span>
+            </div>
+            </div>
+          </header>
+
+          <div class="mobile-last-updated" id="mobileLastUpdatedStrip" hidden>
+            <span class="mobile-last-updated-label">Last Updated</span>
+            <strong id="mobileLastUpdatedText">--</strong>
+          </div>
+
+          <section class="mobile-home" id="mobileHomeSection">
+          <div class="mobile-home-status">
+            <div class="mobile-home-status-pill">
+              <span class="mobile-home-status-label">Month</span>
+              <strong id="mobileStatusMonth">--</strong>
+            </div>
+            <div class="mobile-home-status-pill">
+              <span class="mobile-home-status-label">Range</span>
+              <strong id="mobileStatusWeek">--</strong>
+            </div>
+            <div class="mobile-home-status-pill">
+              <span class="mobile-home-status-label">Scope</span>
+              <strong id="mobileStatusScope">--</strong>
+            </div>
+          </div>
+          <div class="mobile-home-grid">
+            <button class="mobile-home-card mobile-home-card-summary mobile-home-card-primary" data-mobile-target="summaryCards" type="button">
+              <span class="mobile-home-icon" aria-hidden="true"></span>
+              <span class="mobile-home-label">Scorecards</span>
+              <strong>View Summary</strong>
+              <p>Open the KPI scorecards and range-over-range signals first.</p>
+            </button>
+            <button class="mobile-home-card mobile-home-card-rankings mobile-home-card-primary" data-mobile-target="agentsSection" type="button">
+              <span class="mobile-home-icon" aria-hidden="true"></span>
+              <span class="mobile-home-label">Agents</span>
+              <strong>Rankings</strong>
+              <p>See leaderboards, watchlist agents, and breakdowns.</p>
+            </button>
+            <button class="mobile-home-card mobile-home-card-table" data-mobile-target="tableSection" type="button">
+              <span class="mobile-home-icon" aria-hidden="true"></span>
+              <span class="mobile-home-label">Team Detail</span>
+              <strong>Open Table</strong>
+              <p>Search, export, and review all agents.</p>
+            </button>
+            <button class="mobile-home-card mobile-home-card-trends" data-mobile-target="trendsSection" type="button">
+              <span class="mobile-home-icon" aria-hidden="true"></span>
+              <span class="mobile-home-label">Trends</span>
+              <strong>Trend Charts</strong>
+              <p>See score movement and date-range comparisons.</p>
+            </button>
+            <button id="mobileLegendLauncher" class="mobile-home-card mobile-home-card-soft mobile-home-card-legend" type="button">
+              <span class="mobile-home-icon" aria-hidden="true"></span>
+              <span class="mobile-home-label">Reference</span>
+              <strong>KPI Legend</strong>
+              <p>Keep score definitions one tap away.</p>
+            </button>
+            <button id="mobileFiltersLauncher" class="mobile-home-card mobile-home-card-soft mobile-home-card-filters" type="button">
+              <span class="mobile-home-icon" aria-hidden="true"></span>
+              <span class="mobile-home-label">Controls</span>
+              <strong>Filters</strong>
+              <p>Open month, date range, and agent filters.</p>
+            </button>
+          </div>
+        </section>
+
+        <div class="focus-top-section" id="focusTopSection">
+          <section class="summary-grid" id="summaryCards">
+            <article class="summary-card card" data-kpi="overall">
+              <div class="card-topline">
+                <span id="overallCardTitle">Performance Score</span>
+                <span class="score-chip" id="overallCardBadge">-</span>
+              </div>
+              <strong id="overallScoreValue">--</strong>
+              <p class="summary-subtext" id="overallScoreRaw">Transfer + Admits + AHT</p>
+              <p id="overallScoreDelta">Date-range comparison pending</p>
+            </article>
+
+            <article class="summary-card card" data-kpi="transfer" data-focus-group="performance">
+              <div class="card-topline">
+                <span>Transfer Score</span>
+                <span class="score-chip" id="transferCardBadge">-</span>
+              </div>
+              <strong id="transferScoreValue">--</strong>
+              <p class="summary-subtext" id="transferScoreRaw">Transfer rate pending</p>
+              <p id="transferScoreDelta">Date-range comparison pending</p>
+            </article>
+
+            <article class="summary-card card" data-kpi="admits" data-focus-group="performance">
+              <div class="card-topline">
+                <span>Admits Score</span>
+                <span class="score-chip" id="admitsCardBadge">-</span>
+              </div>
+              <strong id="admitsScoreValue">--</strong>
+              <p class="summary-subtext" id="admitsScoreRaw">Admits count pending</p>
+              <p id="admitsScoreDelta">Date-range comparison pending</p>
+            </article>
+
+            <article class="summary-card card" data-kpi="aht" data-focus-group="performance">
+              <div class="card-topline">
+                <span>AHT Score</span>
+                <span class="score-chip" id="ahtCardBadge">-</span>
+              </div>
+              <strong id="ahtScoreValue">--</strong>
+              <p class="summary-subtext" id="ahtScoreRaw">Average handle time pending</p>
+              <p id="ahtScoreDelta">Date-range comparison pending</p>
+            </article>
+
+            <article class="summary-card card" data-kpi="attendance" data-focus-group="attendance">
+              <div class="card-topline">
+                <span>Attendance Score</span>
+                <span class="score-chip" id="attendanceCardBadge">-</span>
+              </div>
+              <strong id="attendanceScoreValue">--</strong>
+              <p class="summary-subtext" id="attendanceScoreRaw">Attendance percent pending</p>
+              <p id="attendanceScoreDelta">Date-range comparison pending</p>
+            </article>
+
+            <article class="summary-card card" data-kpi="qa" data-focus-group="qa">
+              <div class="card-topline">
+                <span>Quality Assurance Score</span>
+                <span class="score-chip" id="qaCardBadge">-</span>
+              </div>
+              <strong id="qaScoreValue">--</strong>
+              <p class="summary-subtext" id="qaScoreRaw">Quality assurance percent pending</p>
+              <p id="qaScoreDelta">Date-range comparison pending</p>
+            </article>
+          </section>
+
+          <section class="top-filters card" id="filtersSection">
+            <div class="top-filters-header">
+              <div>
+                <p class="eyebrow">Quick Filters</p>
+                <h3 id="topFiltersTitle">Filter by month, date range, and agent</h3>
+              </div>
+              <label class="dual-date-range-toggle is-hidden" id="compareRangeHeaderToggle" for="compareDateToggle">
+                <input id="compareDateToggle" type="checkbox" />
+                <span>Compare range</span>
+              </label>
+            </div>
+            <div class="top-filters-mobile-toggle">
+              <button id="filtersCollapseToggle" class="table-collapse-button" type="button" aria-expanded="false" aria-controls="filtersContentArea">
+                Show Filters
+              </button>
+            </div>
+            <div class="filters-content-area" id="filtersContentArea">
+              <div class="dual-date-range-card is-hidden" id="dualDateRangeSection">
+                <div class="dual-date-range-grid">
+                  <label>
+                    <span>Primary Start</span>
+                    <input id="primaryDateStart" type="date" />
+                  </label>
+                  <label>
+                    <span>Primary End</span>
+                    <input id="primaryDateEnd" type="date" />
+                  </label>
+                  <label>
+                    <span>Agent</span>
+                    <select id="dualRangeAgentFilter"></select>
+                  </label>
+                  <div class="top-filter-action dual-range-reset-wrap">
+                    <button id="dualRangeReset" class="primary-button top-reset-button" type="button">
+                      Reset Filters
+                    </button>
+                  </div>
+                  <label class="compare-date-field is-hidden" id="compareDateStartField">
+                    <span>Compare Start</span>
+                    <input id="compareDateStart" type="date" />
+                  </label>
+                  <label class="compare-date-field is-hidden" id="compareDateEndField">
+                    <span>Compare End</span>
+                    <input id="compareDateEnd" type="date" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="top-filters-grid">
+                <label id="monthFilterField">
+                  <span id="monthFilterLabel">Month</span>
+                  <select id="monthFilter"></select>
+                </label>
+                <label id="weekFilterField">
+                  <span id="weekFilterLabel">Date Range</span>
+                  <select id="weekFilter"></select>
+                </label>
+                <label id="agentFilterField">
+                  <span id="agentFilterLabel">Agent</span>
+                  <select id="agentFilter"></select>
+                </label>
+                <div class="top-filter-action">
+                  <button id="resetFilters" class="primary-button top-reset-button" type="button">
+                    Reset Filters
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="insight-strip" id="overviewSection">
+          <article class="insight-card card">
+            <span class="insight-label">Current View</span>
+            <strong id="viewInsightTitle">Loading selection</strong>
+            <p id="viewInsightBody">Building your current scope summary.</p>
+          </article>
+          <article class="insight-card card">
+            <span class="insight-label">Best Signal</span>
+            <strong id="bestInsightTitle">Scanning strongest KPI</strong>
+            <p id="bestInsightBody">We are checking which metric is currently leading.</p>
+          </article>
+          <article class="insight-card card">
+            <span class="insight-label">Watch Item</span>
+            <strong id="watchInsightTitle">Checking risk area</strong>
+            <p id="watchInsightBody">We are identifying the KPI that needs attention.</p>
+          </article>
+          <article class="insight-card card">
+            <span class="insight-label">Momentum</span>
+            <strong id="momentumInsightTitle">Preparing trend view</strong>
+            <p id="momentumInsightBody">Date-range movement will appear here.</p>
+          </article>
+        </section>
+
+        <section class="raw-grid" id="monthlySection">
+          <div id="rawMetricsGrid"></div>
+        </section>
+
+        <section class="table-card card" id="tableSection">
+          <div class="table-header">
+            <div>
+              <p class="eyebrow">Team Detail</p>
+              <h3 id="tableSectionTitle">All agents KPI score table</h3>
+              <p class="table-section-subnote" id="tableSectionSubnote">
+                Focused on transfer, admits, and AHT rows for the selected scope.
+              </p>
+              <p class="table-debug-line" id="tableDebugLine" hidden></p>
+              <p class="table-row-hint" id="tableRowHint">Click any row to open the detailed KPI breakdown.</p>
+            </div>
+            <div class="table-actions">
+              <label class="search-field table-search" for="tableSearch">
+                <span>Search agent or date range</span>
+                <input
+                  id="tableSearch"
+                  name="tableSearch"
+                  type="search"
+                  placeholder="Type to filter the table"
+                />
+              </label>
+              <button id="exportCsvButton" class="primary-button" type="button">
+                Export CSV
+              </button>
+              <button id="expandAllRowsButton" class="ghost-button table-secondary-button" type="button">
+                Expand All
+              </button>
+              <button id="collapseAllRowsButton" class="ghost-button table-secondary-button" type="button">
+                Collapse All
+              </button>
+            </div>
+          </div>
+          <div class="table-mobile-heading">
+            <button id="tableCollapseToggle" class="table-collapse-button" type="button" aria-expanded="true" aria-controls="tableContentArea">
+              Collapse Table
+            </button>
+          </div>
+
+          <div class="table-content-area" id="tableContentArea">
+            <div class="table-summary-strip" id="tableSummaryStrip"></div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr id="tableHeadRow"></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="agent-focus-grid is-hidden" id="agentFocusSection" data-scope="agent-only">
+          <article class="agent-focus-card card agent-focus-hero">
+            <span class="agent-focus-label">Agent Focus</span>
+            <strong id="agentFocusName">Selected agent</strong>
+            <p id="agentFocusNarrative">Pick one agent to show an individualized coaching snapshot.</p>
+          </article>
+          <article class="agent-focus-card card">
+            <span class="agent-focus-label">Latest Overall</span>
+            <strong id="agentOverallValue">--</strong>
+            <p id="agentOverallNarrative">Latest weighted score summary.</p>
+          </article>
+          <article class="agent-focus-card card">
+            <span class="agent-focus-label">Strongest KPI</span>
+            <strong id="agentStrongestValue">--</strong>
+            <p id="agentStrongestNarrative">Best-performing KPI in the latest date range.</p>
+          </article>
+          <article class="agent-focus-card card">
+            <span class="agent-focus-label">Weakest KPI</span>
+            <strong id="agentWeakestValue">--</strong>
+            <p id="agentWeakestNarrative">Most urgent KPI to coach in the latest date range.</p>
+          </article>
+        </section>
+
+        <section class="content-grid" id="trendsSection">
+          <article class="chart-card card chart-span-wide">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Trend Analysis</p>
+                <h3 id="trendSectionTitle">KPI trends</h3>
+              </div>
+            </div>
+            <canvas id="trendChart" aria-label="KPI trends" role="img"></canvas>
+          </article>
+        </section>
+
+        <section class="insight-grid" id="snapshotSection">
+
+          <article class="chart-card card" id="snapshotCard">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Selected Range</p>
+                <h3 id="snapshotSectionTitle">KPI score snapshot</h3>
+              </div>
+            </div>
+            <canvas id="weekScoreChart" aria-label="Selected date range KPI scores" role="img"></canvas>
+          </article>
+
+          <article class="chart-card card" id="contributionCard">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Weighted Mix</p>
+                <h3>Overall score contribution</h3>
+              </div>
+            </div>
+            <canvas id="contributionChart" aria-label="Weighted score contribution" role="img"></canvas>
+          </article>
+
+          <article class="chart-card card">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Variance</p>
+                <h3 id="varianceSectionTitle">KPI variance</h3>
+              </div>
+            </div>
+            <canvas id="varianceChart" aria-label="KPI variance chart" role="img"></canvas>
+          </article>
+
+          <article class="chart-card card chart-span-wide" id="comparisonSection">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Comparison</p>
+                <h3 id="comparisonTitle">Selected date range vs previous date range</h3>
+                <p class="chart-subnote" id="comparisonSubnote">Comparing the latest available date range against the previous range.</p>
+              </div>
+            </div>
+            <canvas id="comparisonChart" aria-label="Date range comparison" role="img"></canvas>
+          </article>
+        </section>
+
+        <section class="content-grid" id="performersSection" data-scope="team-only">
+          <article class="chart-card card chart-span-wide" id="agentsSection" data-scope="team-only">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Spread</p>
+                <h3 id="rankingSectionTitle">Performance score spread</h3>
+                <p class="chart-subnote" id="rankingSubnote">Showing where the team is clustered across low, middle, and top score bands.</p>
+              </div>
+            </div>
+            <canvas id="performerSpreadChart" aria-label="Agent score spread" role="img"></canvas>
+            <div class="performer-spread-summary" id="performerSpreadSummary"></div>
+          </article>
+        </section>
+
+        <section class="content-grid" id="deepDiveSection">
+          <article class="chart-card card chart-span-wide" id="breakdownSection" data-scope="team-only">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Breakdown</p>
+                <h3 id="breakdownSectionTitle">KPI breakdown per agent</h3>
+              </div>
+            </div>
+            <canvas id="stackedChart" aria-label="KPI breakdown per agent" role="img"></canvas>
+          </article>
+        </section>
+
+        <section class="content-grid" id="diagnosticsSection">
+          <article class="chart-card card chart-span-wide distribution-card" id="distributionSection" data-scope="team-only">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Distribution</p>
+                <h3 id="distributionSectionTitle">Agent score distribution by KPI</h3>
+              </div>
+            </div>
+            <div class="distribution-mobile-nav" aria-label="Distribution KPI selector">
+              <button class="distribution-mobile-chip is-active" data-distribution-panel="transfer" data-focus-group="performance" type="button"><span class="chip-full">Transfer</span><span class="chip-short">TR</span></button>
+              <button class="distribution-mobile-chip" data-distribution-panel="admits" data-focus-group="performance" type="button"><span class="chip-full">Admits</span><span class="chip-short">AD</span></button>
+              <button class="distribution-mobile-chip" data-distribution-panel="aht" data-focus-group="performance" type="button"><span class="chip-full">AHT</span><span class="chip-short">AHT</span></button>
+              <button class="distribution-mobile-chip" data-distribution-panel="attendance" data-focus-group="attendance" type="button"><span class="chip-full">Attendance</span><span class="chip-short">ATT</span></button>
+              <button class="distribution-mobile-chip" data-distribution-panel="qa" data-focus-group="qa" type="button"><span class="chip-full">QA</span><span class="chip-short">QA</span></button>
+            </div>
+            <div class="distribution-grid">
+              <div class="distribution-item distribution-panel distribution-panel-transfer" data-distribution-item="transfer" data-focus-group="performance">
+                <p class="distribution-title distribution-transfer">Transfer</p>
+                <canvas id="transferDistributionChart" aria-label="Transfer distribution" role="img"></canvas>
+              </div>
+              <div class="distribution-item distribution-panel distribution-panel-admits" data-distribution-item="admits" data-focus-group="performance">
+                <p class="distribution-title distribution-admits">Admits</p>
+                <canvas id="admitsDistributionChart" aria-label="Admits distribution" role="img"></canvas>
+              </div>
+              <div class="distribution-item distribution-panel distribution-panel-aht" data-distribution-item="aht" data-focus-group="performance">
+                <p class="distribution-title distribution-aht">AHT</p>
+                <canvas id="ahtDistributionChart" aria-label="AHT distribution" role="img"></canvas>
+              </div>
+              <div class="distribution-item distribution-panel distribution-panel-attendance" data-distribution-item="attendance" data-focus-group="attendance">
+                <p class="distribution-title distribution-attendance">Attendance</p>
+                <canvas id="attendanceDistributionChart" aria-label="Attendance distribution" role="img"></canvas>
+              </div>
+              <div class="distribution-item distribution-panel distribution-panel-qa" data-distribution-item="qa" data-focus-group="qa">
+                <p class="distribution-title distribution-qa">Quality Assurance</p>
+                <canvas id="qaDistributionChart" aria-label="QA distribution" role="img"></canvas>
+              </div>
+            </div>
+          </article>
+        </section>
+
+      </main>
+    </div>
+
+    <nav class="mobile-bottom-nav" aria-label="Mobile dashboard navigation">
+      <button class="mobile-bottom-nav-button is-active" data-mobile-action="home" type="button">
+        <span class="mobile-bottom-nav-icon" aria-hidden="true"></span>
+        <span class="mobile-bottom-nav-kicker">Start</span>
+        <strong>Home</strong>
+      </button>
+      <button class="mobile-bottom-nav-button" data-mobile-action="summary" type="button">
+        <span class="mobile-bottom-nav-icon" aria-hidden="true"></span>
+        <span class="mobile-bottom-nav-kicker">Cards</span>
+        <strong>Scores</strong>
+      </button>
+      <button class="mobile-bottom-nav-button" data-mobile-action="table" type="button">
+        <span class="mobile-bottom-nav-icon" aria-hidden="true"></span>
+        <span class="mobile-bottom-nav-kicker">Rows</span>
+        <strong>Table</strong>
+      </button>
+      <button class="mobile-bottom-nav-button" data-mobile-action="agents" type="button">
+        <span class="mobile-bottom-nav-icon" aria-hidden="true"></span>
+        <span class="mobile-bottom-nav-kicker">Team</span>
+        <strong>Agents</strong>
+      </button>
+      <button class="mobile-bottom-nav-button" data-mobile-action="more" type="button">
+        <span class="mobile-bottom-nav-icon" aria-hidden="true"></span>
+        <span class="mobile-bottom-nav-kicker">Tools</span>
+        <strong>More</strong>
+      </button>
+    </nav>
+
+    <div class="mobile-more-panel" id="mobileMorePanel" aria-hidden="true">
+      <div class="mobile-more-header">
+        <div>
+          <p class="eyebrow">Quick Actions</p>
+          <h3>More tools</h3>
+        </div>
+        <button id="mobileMoreClose" class="floating-legend-close" type="button" aria-label="Close more tools">
+          Close
+        </button>
+      </div>
+      <div class="mobile-more-group">
+        <span class="mobile-more-group-label">Reference</span>
+        <div class="mobile-more-grid">
+          <button id="mobileMoreLegend" class="mobile-more-action mobile-more-action-legend" type="button">
+            <span class="mobile-more-action-icon" aria-hidden="true"></span>
+            <span class="mobile-more-action-copy">
+              <span class="mobile-more-action-kicker">Guide</span>
+              <strong>KPI Legend</strong>
+            </span>
+          </button>
+          <button id="mobileMoreFilters" class="mobile-more-action mobile-more-action-filters" type="button">
+            <span class="mobile-more-action-icon" aria-hidden="true"></span>
+            <span class="mobile-more-action-copy">
+              <span class="mobile-more-action-kicker">Scope</span>
+              <strong>Open Filters</strong>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-more-group">
+        <span class="mobile-more-group-label">Actions</span>
+        <div class="mobile-more-grid">
+          <button id="mobileMoreExport" class="mobile-more-action mobile-more-action-export" type="button">
+            <span class="mobile-more-action-icon" aria-hidden="true"></span>
+            <span class="mobile-more-action-copy">
+              <span class="mobile-more-action-kicker">Download</span>
+              <strong>Export CSV</strong>
+            </span>
+          </button>
+          <button id="mobileMoreReset" class="mobile-more-action mobile-more-action-reset" type="button">
+            <span class="mobile-more-action-icon" aria-hidden="true"></span>
+            <span class="mobile-more-action-copy">
+              <span class="mobile-more-action-kicker">Refresh</span>
+              <strong>Reset Filters</strong>
+            </span>
+          </button>
+          <button id="mobileMoreLogout" class="mobile-more-action mobile-more-action-logout" type="button">
+            <span class="mobile-more-action-icon" aria-hidden="true"></span>
+            <span class="mobile-more-action-copy">
+              <span class="mobile-more-action-kicker">Session</span>
+              <strong>Sign Out</strong>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button
+      id="floatingLegendToggle"
+      class="floating-legend-button"
+      type="button"
+      aria-expanded="false"
+      aria-controls="floatingLegendPanel"
+    >
+      KPI Legend
+    </button>
+
+    <div class="floating-legend-panel" id="floatingLegendPanel" aria-hidden="true">
+      <div class="floating-legend-header">
+        <div>
+          <p class="eyebrow">Quick Reference</p>
+          <h3>KPI Legend</h3>
+        </div>
+        <button id="floatingLegendClose" class="floating-legend-close" type="button" aria-label="Close KPI legend">
+          Close
+        </button>
+      </div>
+      <div id="floatingLegendContent"></div>
+    </div>
+
+    <div class="distribution-drilldown-panel" id="distributionDrilldownPanel" aria-hidden="true">
+      <div class="distribution-drilldown-header">
+        <div>
+          <p class="eyebrow">Distribution Detail</p>
+          <h3 id="distributionDrilldownTitle">KPI score detail</h3>
+          <p class="chart-subnote" id="distributionDrilldownSubnote">Selected score bucket details.</p>
+        </div>
+        <button
+          id="distributionDrilldownClose"
+          class="floating-legend-close"
+          type="button"
+          aria-label="Close distribution detail"
+        >
+          Close
+        </button>
+      </div>
+      <div class="distribution-drilldown-list" id="distributionDrilldownList"></div>
+    </div>
+  </body>
+</html>
