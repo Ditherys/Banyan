@@ -1,2 +1,6 @@
 node_modules/
 dist/
+preview.log
+preview.err
+flylanddashboard-main/
+banyanold.png
