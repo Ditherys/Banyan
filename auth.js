@@ -8,13 +8,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDdOHQaTZOVAGiwIHSdBP8AvJ_00_zgXqU",
-  authDomain: "flylandkpi.firebaseapp.com",
-  projectId: "flylandkpi",
-  storageBucket: "flylandkpi.firebasestorage.app",
-  messagingSenderId: "126154290277",
-  appId: "1:126154290277:web:f8475c853421287ceb428c",
-  measurementId: "G-N2QK2VETKL",
+  apiKey: "AIzaSyCvHc55uwbzQM6RMowkSigh76AEF-bNnm8",
+  authDomain: "banyan-kpi.firebaseapp.com",
+  projectId: "banyan-kpi",
+  storageBucket: "banyan-kpi.firebasestorage.app",
+  messagingSenderId: "793157692887",
+  appId: "1:793157692887:web:33fe72f16fbc4e5962af92",
+  measurementId: "G-LR2Y6QJCK3",
 };
 
 const allowedDomain = "allianceglobalsolutions.com";
