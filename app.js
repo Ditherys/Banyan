@@ -906,11 +906,13 @@ function setMobileNavActive(action) {
 function applyMobileLegendState() {
   elements.mobileLegendPanel?.classList.toggle("is-open", state.mobileLegendOpen);
   elements.mobileLegendPanel?.setAttribute("aria-hidden", String(!state.mobileLegendOpen));
+  document.body?.classList.toggle("has-mobile-legend-open", state.mobileLegendOpen);
 }
 
 function initializeMobileLegend() {
   if (!elements.legendPanel || !elements.mobileLegendContent) return;
-  elements.mobileLegendContent.innerHTML = elements.legendPanel.innerHTML;
+  const legendItems = [...elements.legendPanel.querySelectorAll(".legend-kpi")];
+  elements.mobileLegendContent.innerHTML = legendItems.map((item) => item.outerHTML).join("");
 }
 
 function scrollToSection(targetId, action) {
@@ -2402,9 +2404,9 @@ function renderCompositionChart(dataset) {
               ],
             })}">
               <div class="stacked-bar">
-                <div class="stacked-segment-attendance" style="height:${attendance}%"></div>
-                <div class="stacked-segment-qa" style="height:${qa}%"></div>
-                <div class="stacked-segment-aht" style="height:${aht}%"></div>
+                <div class="stacked-segment-attendance" style="--segment-size:${attendance}%"></div>
+                <div class="stacked-segment-qa" style="--segment-size:${qa}%"></div>
+                <div class="stacked-segment-aht" style="--segment-size:${aht}%"></div>
               </div>
               <span class="stacked-label">${row.agent}</span>
             </div>
