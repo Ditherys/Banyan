@@ -107,6 +107,8 @@ function setSignedOutUi(message, isError = false) {
     elements.authStatus.textContent = message;
     elements.authStatus.classList.toggle("is-error", isError);
   }
+
+  window.dispatchEvent(new CustomEvent("flyland:auth-signed-out"));
 }
 
 function describeAuthError(error) {

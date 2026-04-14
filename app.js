@@ -1825,6 +1825,10 @@ function renderSingleAgentOverview(dataset) {
   if (!elements.singleAgentOverview) return;
 
   const shouldShow = isSingleAgentView(dataset);
+  elements.singleAgentOverview.classList.toggle("single-agent-overview-all", shouldShow && state.activeTab === "all");
+  elements.singleAgentOverview.classList.toggle("single-agent-overview-attendance", shouldShow && state.activeTab === "attendance");
+  elements.singleAgentOverview.classList.toggle("single-agent-overview-qa", shouldShow && state.activeTab === "qa");
+  elements.singleAgentOverview.classList.toggle("single-agent-overview-aht", shouldShow && state.activeTab === "aht");
   elements.singleAgentOverview.hidden = !shouldShow;
   if (!shouldShow) {
     elements.singleAgentOverview.innerHTML = "";
@@ -1851,7 +1855,7 @@ function renderSingleAgentOverview(dataset) {
 
   if (state.activeTab === "attendance") {
     elements.singleAgentOverview.innerHTML = `
-      <article class="chart-card card single-agent-card single-agent-card-wide">
+      <article class="chart-card card single-agent-card single-agent-card-wide single-agent-card-attendance-summary">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">Selected Agent</p>
@@ -1879,7 +1883,7 @@ function renderSingleAgentOverview(dataset) {
         </div>
       </article>
 
-      <article class="chart-card card single-agent-card">
+      <article class="chart-card card single-agent-card single-agent-card-attendance-scope">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">Monthly Detail</p>
@@ -1898,7 +1902,7 @@ function renderSingleAgentOverview(dataset) {
         </div>
       </article>
 
-      <article class="chart-card card single-agent-card">
+      <article class="chart-card card single-agent-card single-agent-card-attendance-detail">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">Attendance Detail</p>
@@ -1922,7 +1926,7 @@ function renderSingleAgentOverview(dataset) {
 
   if (state.activeTab === "qa") {
     elements.singleAgentOverview.innerHTML = `
-      <article class="chart-card card single-agent-card single-agent-card-wide">
+      <article class="chart-card card single-agent-card single-agent-card-wide single-agent-card-qa-summary">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">Selected Agent</p>
@@ -1950,7 +1954,7 @@ function renderSingleAgentOverview(dataset) {
         </div>
       </article>
 
-      <article class="chart-card card single-agent-card">
+      <article class="chart-card card single-agent-card single-agent-card-qa-scope">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">Selected Scope</p>
@@ -1969,7 +1973,7 @@ function renderSingleAgentOverview(dataset) {
         </div>
       </article>
 
-      <article class="chart-card card single-agent-card">
+      <article class="chart-card card single-agent-card single-agent-card-qa-detail">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">QA Detail</p>
@@ -1993,7 +1997,7 @@ function renderSingleAgentOverview(dataset) {
 
   if (state.activeTab === "aht") {
     elements.singleAgentOverview.innerHTML = `
-      <article class="chart-card card single-agent-card single-agent-card-wide">
+      <article class="chart-card card single-agent-card single-agent-card-wide single-agent-card-aht-summary">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">Selected Agent</p>
@@ -2021,7 +2025,7 @@ function renderSingleAgentOverview(dataset) {
         </div>
       </article>
 
-      <article class="chart-card card single-agent-card">
+      <article class="chart-card card single-agent-card single-agent-card-aht-volume">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">Call Volume</p>
@@ -2040,7 +2044,7 @@ function renderSingleAgentOverview(dataset) {
         </div>
       </article>
 
-      <article class="chart-card card single-agent-card">
+      <article class="chart-card card single-agent-card single-agent-card-aht-time">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">Time Detail</p>
@@ -2059,7 +2063,7 @@ function renderSingleAgentOverview(dataset) {
         </div>
       </article>
 
-      <article class="chart-card card single-agent-card single-agent-card-wide">
+      <article class="chart-card card single-agent-card single-agent-card-wide single-agent-card-aht-detail">
         <div class="section-heading section-heading-compact">
           <div>
             <p class="eyebrow">Range Snapshot</p>
@@ -2091,7 +2095,7 @@ function renderSingleAgentOverview(dataset) {
   }
 
   elements.singleAgentOverview.innerHTML = `
-    <article class="chart-card card single-agent-card single-agent-card-wide">
+    <article class="chart-card card single-agent-card single-agent-card-wide single-agent-card-all-summary">
       <div class="section-heading section-heading-compact">
         <div>
           <p class="eyebrow">Selected Agent</p>
@@ -2119,7 +2123,7 @@ function renderSingleAgentOverview(dataset) {
       </div>
     </article>
 
-    <article class="chart-card card single-agent-card">
+    <article class="chart-card card single-agent-card single-agent-card-all-breakdown">
       <div class="section-heading section-heading-compact">
         <div>
           <p class="eyebrow">KPI Detail</p>
@@ -2142,7 +2146,7 @@ function renderSingleAgentOverview(dataset) {
       </div>
     </article>
 
-    <article class="chart-card card single-agent-card">
+    <article class="chart-card card single-agent-card single-agent-card-all-monthly">
       <div class="section-heading section-heading-compact">
         <div>
           <p class="eyebrow">Monthly Detail</p>
@@ -2161,7 +2165,7 @@ function renderSingleAgentOverview(dataset) {
       </div>
     </article>
 
-    <article class="chart-card card single-agent-card single-agent-card-wide">
+    <article class="chart-card card single-agent-card single-agent-card-wide single-agent-card-all-aht">
       <div class="section-heading section-heading-compact">
         <div>
           <p class="eyebrow">AHT Detail</p>
@@ -3169,6 +3173,12 @@ function bindEvents() {
 
   elements.mobileLogoutButton?.addEventListener("click", () => {
     document.querySelector("#googleLogout")?.click();
+  });
+
+  window.addEventListener("flyland:auth-signed-out", () => {
+    state.mobileLegendOpen = false;
+    applyMobileLegendState();
+    setMobileNavActive("home");
   });
 }
 
