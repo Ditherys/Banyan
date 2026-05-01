@@ -2548,7 +2548,7 @@ function renderTrendChart() {
 
   elements.trendSection.hidden = false;
   const measuredWidth = Math.round(elements.trendChart.getBoundingClientRect().width || 0);
-  const width = isAhtTrend && !isMobileTrend ? Math.max(measuredWidth, 640) : 640;
+  const width = !isMobileTrend ? Math.max(measuredWidth, 640) : 640;
   const height = 220;
   const padding = 28;
   const values = trendData.map((entry) => entry.value);
